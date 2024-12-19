@@ -7,7 +7,6 @@
 #include <string.h>
 
 
-
 //data struct
 typedef struct node{
     void * data;
@@ -23,15 +22,16 @@ typedef struct ADT{
 }ADT;
 
 void display(char * );
+void displayNode(char *);
 ADT * createList(char*);
 void freeList(ADT * );
 void displayList(ADT *);
 Node * createNode(void *);
 void freeNode(Node *);
-ADT*insertNode(ADT * , void *);
+ADT * insertNode(ADT * , void *);
 Node * detachNode(ADT * , void * );
 
 
 
 // end of hearder guard
-    #endif
+#endif

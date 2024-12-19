@@ -11,13 +11,20 @@ int main(int argc , char * argv[]){
     displayList(list);
     //update list
     Node * dNode =  detachNode(list, "Humble");
+    printf("returned\n");
+    Node * doeNode =  detachNode(list, "WORD");
+
+
+    if(doeNode == NULL){
+        printf("Doesnt existL\n");
+    }
 
     displayList(list);
-
-
-    
+    // displayNode(dNode);
 
     // cleaning memory
+    freeNode(doeNode);
+    freeNode(dNode);
     freeList(list);
     return 0;
-}
+}  

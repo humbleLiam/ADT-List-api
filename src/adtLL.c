@@ -4,14 +4,15 @@ void display(char * string){
     printf("%s \n",string);
 
 }
+void displayNode(char * nodeDisplay ){
+    printf("Node data: %s \n",nodeDisplay);    
+}
 void displayList(ADT * list){
-
     printf("List name: %s \n",list->name);
-
     // creating temp point to iterate throught list
     Node * temp = list->head;
     while(temp !=NULL){
-        printf("Node data: %s \n",(char * )temp->data);
+        displayNode((char * )temp->data);    
         // updating node to next 
         temp = temp->next;
     }
@@ -85,10 +86,12 @@ Node * createNode(void * data){
     return temp ;
 }
 void freeNode(Node * node){
-    free(node->data);
-    free(node);
+    if(node !=NULL){ /* To make sure i am not free null goes bye bye*/
+        free(node->data);
+        free(node);
+    }
 }
-ADT * insertNode(ADT* head,void *data){
+void * insertNode(ADT* head,void *data){
     // create the node
     Node * temp = createNode(data);
     // check null
@@ -101,29 +104,34 @@ ADT * insertNode(ADT* head,void *data){
     temp->next = head->head;
     temp->prev = NULL;
     head->head = temp;
-
- return head;
 }
 
-/// this is bugged , start here;
+
 Node * detachNode(ADT * list, void *data){
     // creating a temp no to detach from list then return it 
-    Node * temp = NULL;
+    // prev is the node before head andb it only removes if found 
+    Node * temp = NULL, * prev = NULL;
     //creating pointer to iterate through list
     Node * head = list->head;
     //finding matching node
-    while(!strcmp(data, head->data) || head == NULL){
+    while(head != NULL && strcmp(data, head->data) ){
+        prev = head;
         head = head->next;
     }
-
     /// if not equall to null , so their exists a match
     if(head != NULL){
-        temp = head;
+        displayNode((char * )head->data);
         // removing  the node
-        head = temp->next;
-        head->prev = temp->prev;
-    }
-    
+        //assigning the previous node of head variable and assing the it the index node next
+        //skipping it 
+        if(prev != NULL ){
+            prev->next = head->next;    
+        } else {
+            list->head = head->next;
+        }
 
-    return  temp;
-}
+        temp = head;
+    } 
+
+    return temp;        
+}   
