@@ -91,7 +91,7 @@ void freeNode(Node * node){
         free(node);
     }
 }
-void * insertNode(ADT* head,void *data){
+Node * insertNode(ADT* head,void *data){
     // create the node
     Node * temp = createNode(data);
     // check null
@@ -104,10 +104,12 @@ void * insertNode(ADT* head,void *data){
     temp->next = head->head;
     temp->prev = NULL;
     head->head = temp;
+
+    return temp;
 }
 
 
-Node * detachNode(ADT * list, void *data){
+Node * searchDetachNode(ADT * list, void *data){
     // creating a temp no to detach from list then return it 
     // prev is the node before head andb it only removes if found 
     Node * temp = NULL, * prev = NULL;
@@ -135,3 +137,18 @@ Node * detachNode(ADT * list, void *data){
 
     return temp;        
 }   
+Node * popNode(ADT * list ){
+    Node * temp = NULL;
+    temp = list->head;
+    list->head = temp->next;
+
+    return temp;
+}
+
+void  deleteNPopNode(ADT * list ){
+
+    Node * temp = popNode(list);
+    freeNode(temp);
+
+}
+

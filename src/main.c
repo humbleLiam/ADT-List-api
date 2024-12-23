@@ -10,9 +10,9 @@ int main(int argc , char * argv[]){
 
     displayList(list);
     //update list
-    Node * dNode =  detachNode(list, "Humble");
+    Node * dNode =  searchDetachNode(list, "Humble");
     printf("returned\n");
-    Node * doeNode =  detachNode(list, "WORD");
+    Node * doeNode =  searchDetachNode(list, "WORD");
 
 
     if(doeNode == NULL){

@@ -28,9 +28,10 @@ void freeList(ADT * );
 void displayList(ADT *);
 Node * createNode(void *);
 void freeNode(Node *);
-ADT * insertNode(ADT * , void *);
-Node * detachNode(ADT * , void * );
-
+Node * insertNode(ADT * , void *); // return null if the node faild to be created.
+Node * searchDetachNode(ADT * , void * );
+Node * popNode(ADT * list );
+void deleteNPopNode(ADT * list);
 
 
 // end of hearder guard
