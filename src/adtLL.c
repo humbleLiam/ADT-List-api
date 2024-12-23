@@ -4,23 +4,30 @@ void display(char * string){
     printf("%s \n",string);
 
 }
-void displayNode(char * nodeDisplay ){
-    printf("Node data: %s \n",nodeDisplay);    
+
+void displayCard(void * cur){
+    Card * pointer = (Card * ) cur;
+    printf("Suit: %s Card: %d \n",pointer->suit, pointer->value);    
 }
+
+void displayNode(void* nodeDisplay ){
+    char * str = (char *) nodeDisplay;
+    printf("Node data: %s \n",str);    
+}
+
 void displayList(ADT * list){
     printf("List name: %s \n",list->name);
     // creating temp point to iterate throught list
     Node * temp = list->head;
     while(temp !=NULL){
-        displayNode((char * )temp->data);    
+        (*list->display)(temp->data);   
         // updating node to next 
         temp = temp->next;
     }
 }
-ADT * createList(char* name){
+ADT * createList(char* name, void (*display)(void *) ){
     ADT * list = NULL;
     char * temp= NULL;
-
 
     // giving the list an name +1 null char
     temp =(char *) malloc(sizeof(char)+strlen(name)+1);
@@ -39,6 +46,7 @@ ADT * createList(char* name){
     list->head = NULL;
     list->tail = NULL;
     list->name = temp;
+    list->display = display;
 
     return list;
 }
@@ -61,15 +69,14 @@ void freeList(ADT * list){
 Node * createNode(void * data){
     // creating node;
     Node * temp = NULL;
-    char * string = NULL;
+    void * string = NULL;
     // assing data is some string however long.
-    string = (char * ) malloc(sizeof(char) + strlen(data)+1);
+    string = (void * ) malloc(sizeof(data));
     //check if null
     if(string == NULL){
         return NULL;
     }
     //coping data to temp;
-    strcpy(string,data);
    
     // creating node
     temp = (Node * ) malloc(sizeof(Node));
@@ -85,13 +92,29 @@ Node * createNode(void * data){
 
     return temp ;
 }
+Card * createCard(char * suit, int value){
+    Card *card =(Card *) malloc(sizeof( Card));
+
+     if (card == NULL) {
+        fprintf(stderr, "Memory allocation failed for Card\n");
+        return NULL;
+    }
+
+    strncpy(card->suit, suit, sizeof(card->suit) - 1);
+    card->suit[sizeof(card->suit) - 1] = '\0';
+    card->value = value;
+
+    return card;
+}
+
+
 void freeNode(Node * node){
     if(node !=NULL){ /* To make sure i am not free null goes bye bye*/
         free(node->data);
         free(node);
     }
 }
-Node * insertNode(ADT* head,void *data){
+Node * insertNode(ADT* head,void *data, size_t size){
     // create the node
     Node * temp = createNode(data);
     // check null
@@ -107,8 +130,6 @@ Node * insertNode(ADT* head,void *data){
 
     return temp;
 }
-
-
 Node * searchDetachNode(ADT * list, void *data){
     // creating a temp no to detach from list then return it 
     // prev is the node before head andb it only removes if found 
@@ -152,3 +173,8 @@ void  deleteNPopNode(ADT * list ){
 
 }
 
+char * findStringSuit(int number){
+    static char *suits[] = {"Hearts", "Diamonds", "Clubs", "Spades"};
+    return suits[number % 4];
+
+}

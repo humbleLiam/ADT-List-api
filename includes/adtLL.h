@@ -19,19 +19,30 @@ typedef struct ADT{
     Node * head;
     Node * tail;
     char * name;
+    void (*display)(void * );
+    void * (*create)(void * data);
 }ADT;
 
+
+typedef struct card{
+    char suit[10];
+    int value; 
+} Card;
+
 void display(char * );
-void displayNode(char *);
-ADT * createList(char*);
+void displayNode(void *);
+void displayCard(void * );
+ADT * createList(char*, void(* display)(void *));
 void freeList(ADT * );
 void displayList(ADT *);
 Node * createNode(void *);
+Card * createCard(char * , int);
 void freeNode(Node *);
-Node * insertNode(ADT * , void *); // return null if the node faild to be created.
+Node * insertNode(ADT * , void *, size_t ); // return null if the node faild to be created.
 Node * searchDetachNode(ADT * , void * );
 Node * popNode(ADT * list );
 void deleteNPopNode(ADT * list);
+char * findStringSuit (int number);
 
 
 // end of hearder guard
