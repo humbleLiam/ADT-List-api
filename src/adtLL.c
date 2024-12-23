@@ -51,6 +51,7 @@ ADT * createList(char* name, void (*display)(void *) ){
     return list;
 }
 void freeList(ADT * list){
+    if(list == NULL) return;
     
     // creating temp to iterate through list
     Node * temp = list->head;
@@ -66,30 +67,27 @@ void freeList(ADT * list){
     free(list->name);   
     free(list);
 }
-Node * createNode(void * data){
+Node * createNode(void * data, size_t size){
     // creating node;
     Node * temp = NULL;
-    void * string = NULL;
-    // assing data is some string however long.
-    string = (void * ) malloc(sizeof(data));
-    //check if null
-    if(string == NULL){
-        return NULL;
-    }
     //coping data to temp;
-   
     // creating node
     temp = (Node * ) malloc(sizeof(Node));
     //check for null hehe
     if(temp == NULL){
         return NULL;
     }
+    
+    temp->data = malloc(size);
+        //check for null hehe
+    if(temp == NULL){
+        return NULL;
+    }
+    memcpy(temp->data, data, size);
 
     //assing pointers to node
     temp->next = NULL;
     temp->prev = NULL;
-    temp->data = string;
-
     return temp ;
 }
 Card * createCard(char * suit, int value){
@@ -114,9 +112,12 @@ void freeNode(Node * node){
         free(node);
     }
 }
+
+
+//need to update to fix !!!!!!!!!!!!!!!!!!!!!11
 Node * insertNode(ADT* head,void *data, size_t size){
     // create the node
-    Node * temp = createNode(data);
+    Node * temp = createNode(data, size);
     // check null
     if(temp == NULL){
         fprintf(stdout,"ERRROR-FAILED_TO_CREATE_NODE\n");

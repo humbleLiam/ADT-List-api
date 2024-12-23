@@ -35,7 +35,7 @@ void displayCard(void * );
 ADT * createList(char*, void(* display)(void *));
 void freeList(ADT * );
 void displayList(ADT *);
-Node * createNode(void *);
+Node * createNode(void * , size_t);
 Card * createCard(char * , int);
 void freeNode(Node *);
 Node * insertNode(ADT * , void *, size_t ); // return null if the node faild to be created.
